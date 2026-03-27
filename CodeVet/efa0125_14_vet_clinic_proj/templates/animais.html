@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+<!--
+  Este template herda a estrutura base da aplicação (base.html), reutilizando menu, rodapé e estilos globais.
+-->
+
+{% block title %}Animais{% endblock %}
+<!--
+  Define o título específico da página de listagem de animais.
+-->
+
+{% block content %}
+<!--
+  Início do conteúdo específico da página de animais.
+-->
+
+<h1>🐾 Lista de Animais</h1>
+<!--
+  Título principal da página.
+-->
+
+<p>
+  <!--
+    Link para a criação de um novo animal.
+    A rota é protegida no backend (admin e staff).
+  -->
+  <a href="{{ url_for('animais_novo') }}">Novo animal</a>
+</p>
+
+<!--
+  Tabela utilizada para apresentar os animais registados.
+  Os dados são recebidos do backend através da variável 'animais'.
+-->
+<table border="1" cellpadding="6">
+  <tr>
+    <!-- Cabeçalhos da tabela -->
+    <th>Animal ID</th>
+    <th>Cliente ID</th>
+    <th>Nome</th>
+    <th>Espécie</th>
+    <th>Raça</th>
+    <th>Data de Nascimento</th>
+    <th>Ações</th>
+  </tr>
+
+  {% for u in animais %}
+  <!--
+    Percorre a lista de animais enviada pelo backend.
+    Cada iteração representa um registo da tabela 'animais'.
+  -->
+  <tr>
+    <td>{{ u.id }}</td>
+    <td>{{ u.cliente_id }}</td>
+    <td>{{ u.nome }}</td>
+    <td>{{ u.especie }}</td>
+    <td>{{ u.raca }}</td>
+    <td>{{ u.data_nascimento }}</td>
+
+    <td>
+      <!--
+        Link para edição do animal.
+        Disponível para admin e staff.
+      -->
+      <a href="{{ url_for('animais_editar', id=u.id) }}">Editar</a>
+
+      <!--
+        A opção de apagar é exibida apenas para administradores.
+        Esta verificação no frontend complementa a validação no backend.
+      -->
+      {% if session.get("role") == "admin" %}
+      <form
+        method="POST"
+        action="{{ url_for('animais_apagar', id=u.id) }}"
+        style="display: inline;"
+      >
+        <!--
+          Botão de exclusão com confirmação evitando eliminações acidentais.
+        -->
+        <button
+          type="submit"
+          onclick="return confirm('Apagar este animal?')"
+        >
+          Apagar
+        </button>
+      </form>
+      {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% endblock %}
+<!--
+  Fim do conteúdo específico da página de listagem de animais.
+-->

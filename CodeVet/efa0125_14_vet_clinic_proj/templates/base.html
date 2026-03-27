@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8">
+
+  <!--
+    Bloco de título dinâmico.
+    Cada página pode sobrescrever este título, caso contrário será exibido o título padrão.
+  -->
+  <title>{% block title %}Clínica Veterinária CodeVet{% endblock %}</title>
+
+  <!--
+    Importação do ficheiro CSS a partir da pasta static.
+    O url_for garante que o caminho funcione corretamente em qualquer ambiente.
+  -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="page-layout">
+
+  <!-- ================= MENU DE NAVEGAÇÃO ================= -->
+  <nav>
+    <!-- Link público, visível para qualquer utilizador -->
+    <a href="{{ url_for('index') }}">Início</a>
+
+    <!--
+      Verifica se existe um utilizador autenticado.
+      A presença de session["user_id"] indica login ativo.
+    -->
+    {% if session.get("user_id") %}
+      <a href="{{ url_for('dashboard') }}">Dashboard</a>
+
+      <!--
+        Menu exclusivo para utilizadores internos (admin e staff).
+      -->
+      {% if session.get("role") in ["admin", "staff"] %}
+        <a href="{{ url_for('clientes_listar') }}">Clientes</a>
+        <a href="{{ url_for('animais_listar') }}">Animais</a>
+        <a href="{{ url_for('consultas_listar') }}">Consultas</a>
+      {% endif %}
+
+      <!--
+        Menu exclusivo para administradores.
+        Apenas admins podem gerir utilizadores do sistema.
+      -->
+      {% if session.get("role") == "admin" %}
+        <a href="{{ url_for('users_listar') }}">Users</a>
+      {% endif %}
+
+      <!--
+        Menu exclusivo para clientes autenticados.
+        Mostra apenas opções relacionadas ao próprio cliente.
+      -->
+      {% if session.get("role") == "cliente" %}
+        <a href="{{ url_for('minha_conta') }}">Minha conta</a>
+        <a href="{{ url_for('meus_animais') }}">Meus animais</a>
+        <a href="{{ url_for('minhas_consultas') }}">Minhas consultas</a>
+      {% endif %}
+
+      <!-- Opção de logout disponível para qualquer utilizador autenticado -->
+      <a href="{{ url_for('logout') }}">Logout</a>
+    {% endif %}
+  </nav>
+
+  <!-- ================= MENSAGENS DO SISTEMA ================= -->
+  <!--
+    Bloco responsável por exibir mensagens flash enviadas pelo backend (login, erros, confirmações, etc.).
+  -->
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <hr>
+      <ul>
+        {% for m in messages %}
+          <!-- Cada mensagem é exibida como item da lista -->
+          <li>{{ m }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
+  <hr>
+
+  <!-- ================= CONTEÚDO PRINCIPAL ================= -->
+  <main>
+    <!--
+      Bloco de conteúdo dinâmico.
+      Cada página filha irá inserir aqui o seu conteúdo específico.
+    -->
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- ================= RODAPÉ ================= -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div>
+        <!-- Identidade visual do projeto -->
+        <strong>🐾 CodeVet</strong> | Clínica Veterinária & Sistema de Gestão
+      </div>
+
+      <div>
+        <!-- Contexto académico do projeto -->
+        Projeto IEFP · Python & Flask | Desenvolvido por Rodrigo Fontes
+      </div>
+
+      <div>
+        <!-- Ano fixo do projeto -->
+        © {{ 2026 }} · Todos os direitos reservados
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+<!--
+  Este template herda a estrutura base da aplicação (base.html), reutilizando menu, rodapé e estilos globais.
+-->
+
+{% block title %}Clientes{% endblock %}
+<!--
+  Define o título específico da página de listagem de clientes.
+-->
+
+{% block content %}
+<!--
+  Início do conteúdo específico da página de clientes.
+-->
+
+<h1>👥 Lista de Clientes</h1>
+<!--
+  Título principal da página.
+-->
+
+<p>
+  <!--
+    Link para criação de um novo cliente.
+    A rota é protegida no backend (admin e staff).
+  -->
+  <a class="button-link" href="{{ url_for('clientes_novo') }}">
+    Novo cliente
+  </a>
+</p>
+
+<!--
+  Tabela utilizada para apresentar os clientes registados.
+  Os dados são recebidos do backend através da variável 'clientes'.
+-->
+<table border="1" cellpadding="6">
+  <tr>
+    <!-- Cabeçalhos da tabela -->
+    <th>ID</th>
+    <th>Nome</th>
+    <th class="telefone">Telefone</th>
+    <th>e-mail</th>
+    <th>Morada</th>
+    <th class="acoes">Ações</th>
+  </tr>
+
+  {% for u in clientes %}
+  <!--
+    Percorre a lista de clientes enviada pelo backend.
+    Cada iteração representa um registo da tabela 'clientes'.
+  -->
+  <tr>
+    <td>{{ u.id }}</td>
+    <td>{{ u.nome }}</td>
+    <td class="telefone">{{ u.telefone }}</td>
+    <td>{{ u.email }}</td>
+    <td>{{ u.morada }}</td>
+
+    <td class="acoes">
+      <!--
+        Link para edição do cliente.
+        Disponível para admin e staff.
+      -->
+      <a href="{{ url_for('clientes_editar', id=u.id) }}">Editar</a>
+
+      <!--
+        A opção de apagar é exibida apenas para administradores.
+        Esta verificação no frontend complementa a validação no backend.
+      -->
+      {% if session.get("role") == "admin" %}
+      <form
+        method="POST"
+        action="{{ url_for('clientes_apagar', id=u.id) }}"
+        style="display: inline;"
+      >
+        <!--
+          Botão de exclusão com confirmação em JavaScript, evitando eliminações acidentais (https://www.w3schools.com/jsref/met_win_confirm.asp)
+        -->
+        <button
+          type="submit"
+          onclick="return confirm('Apagar este cliente?')"
+        >
+          Apagar
+        </button>
+      </form>
+      {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% endblock %}
+<!--
+  Fim do conteúdo específico da página de listagem de clientes.
+-->

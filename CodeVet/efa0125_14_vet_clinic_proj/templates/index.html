@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+<!--
+  Este template herda a estrutura definida em base.html.
+  Todo o layout comum (menu, rodapé, CSS, etc.) é reutilizado a partir do template base.
+-->
+
+{% block title %}CodeVet{% endblock %}
+<!--
+  Sobrescreve o bloco de título definido no base.html.
+  Define o título específico da página inicial.
+-->
+
+{% block content %}
+<!--
+  Início do conteúdo específico da página inicial.
+  Este conteúdo será inserido dentro do <main> do base.html.
+-->
+
+<div class="hero">
+    <!--
+      Secção principal (hero section) da página inicial.
+      Utilizada para apresentação visual e institucional do sistema.
+    -->
+
+    <div class="hero-text">
+        <!-- Área de texto da secção principal -->
+        <h1>🐾 Bem-vindo à CodeVet</h1>
+
+        <p>
+            <!-- Texto institucional de apresentação -->
+            Gestão moderna de clínica veterinária,<br>
+            unindo tecnologia e cuidado animal.
+        </p>
+
+        <!--
+          Verifica se o utilizador NÃO está autenticado.
+          Caso não esteja logado, exibe os botões de acesso.
+        -->
+        {% if not session.get("user_id") %}
+            <!-- Link para login de utilizadores internos -->
+            <a href="{{ url_for('login') }}" class="btn">Entrar</a>
+            <br>
+
+            <!-- Link para login específico de clientes -->
+            <a href="{{ url_for('login_cliente') }}" class="btn-outline">
+                Sou Cliente
+            </a>
+        {% endif %}
+    </div>
+
+    <div class="hero-image">
+        <!--
+          Área visual da página inicial.
+          A imagem é carregada da pasta static/images.
+          O url_for garante que o caminho funcione corretamente.
+        -->
+        <img src="{{ url_for('static', filename='images/codevet_home.png') }}"
+             alt="CodeVet - Clínica Veterinária Digital">
+    </div>
+</div>
+
+{% endblock %}
+<!--
+  Fim do bloco de conteúdo específico da página inicial.
+-->

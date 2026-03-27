@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+<!--
+  Este template herda a estrutura base da aplicação (base.html), reutilizando menu, rodapé e estilos globais.
+-->
+
+{% block content %}
+<!--
+  Início do conteúdo específico do formulário de animais.
+-->
+
+<h2>{{ titulo }}</h2>
+<!--
+  O título é dinâmico e definido no backend.
+  Pode assumir valores como "Novo animal" ou "Editar animal".
+-->
+
+<form method="POST">
+  <!--
+    Formulário enviado via método POST.
+    O mesmo template é utilizado tanto para criação quanto para edição de animais.
+  -->
+
+  <p>
+    Cliente:<br />
+
+    <select name="cliente_id" required>
+      <!--
+        Lista suspensa para selecionar o cliente ao qual o animal será associado.
+        Os dados vêm da variável 'clientes', enviada pelo backend.
+      -->
+
+      {% for c in clientes %}
+      <!--
+        Percorre todos os clientes disponíveis e cria uma opção para cada um.
+      -->
+      <option
+        value="{{ c.id }}"
+        {%
+        if
+        animal
+        and
+        animal.cliente_id
+        ==
+        c.id
+        %}selected{%
+        endif
+        %}
+      >
+        {{ c.id }} - {{ c.nome }}
+      </option>
+      {% endfor %}
+    </select>
+  </p>
+
+  <p>
+    Nome Animal:<br />
+    <!--
+      Campo de texto para o nome do animal.
+      Caso seja edição, o valor é preenchido automaticamente.
+    -->
+    <input
+      type="text"
+      name="nome"
+      required
+      value="{{ animal.nome if animal else '' }}"
+    />
+  </p>
+
+  <p>
+    Espécie:<br />
+    <!--
+      Campo para indicar a espécie do animal (ex.: cão, gato).
+      Reutilizado tanto em criação quanto edição.
+    -->
+    <input
+      type="text"
+      name="especie"
+      required
+      value="{{ animal.especie if animal else '' }}"
+    />
+  </p>
+
+  <p>
+    Raça:<br />
+    <!--
+      Campo para indicar a raça do animal.
+    -->
+    <input
+      type="text"
+      name="raca"
+      required
+      value="{{ animal.raca if animal else '' }}"
+    />
+  </p>
+
+  <p>
+    Data Nascimento:<br />
+    <!--
+      Campo do tipo date para registo da data de nascimento.
+      Quando em modo edição, o valor vem do backend.
+    -->
+    <input
+      type="date"
+      name="data_nascimento"
+      required
+      value="{{ animal.data_nascimento if animal else '' }}"
+    />
+  </p>
+
+  <!-- Botão para submeter o formulário -->
+  <button type="submit">Guardar</button>
+
+  <!-- Link para retornar à listagem de animais -->
+  <a href="{{ url_for('animais_listar') }}">Retornar</a>
+</form>
+
+{% endblock %}
+<!--
+  Fim do conteúdo específico do formulário de animais.
+-->

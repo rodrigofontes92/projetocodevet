@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+<!--
+  Este template herda a estrutura base da aplicação (base.html), reutilizando menu, rodapé e estilos globais.
+-->
+
+{% block content %}
+<!--
+  Início do conteúdo específico da página de login de clientes.
+-->
+
+<h2>🔐 Login do Cliente</h2>
+<!--
+  Título da página de autenticação de clientes.
+  Este login é separado do login interno (admin/staff) para maior clareza e controlo de permissões.
+-->
+
+<form method="post">
+  <!--
+    Formulário enviado via método POST.
+    Os dados são processados pela rota /login_cliente no backend.
+  -->
+
+  <p>
+    Email:<br>
+    <!--
+      Campo para introdução do email do cliente.
+      O email funciona como identificador único no sistema.
+    -->
+    <input
+      type="email"
+      name="email"
+      required
+    >
+  </p>
+
+  <p>
+    Password:<br>
+    <!--
+      Campo para introdução da password do cliente.
+      O tipo "password" oculta os caracteres digitados.
+    -->
+    <input
+      type="password"
+      name="password"
+      required
+    >
+  </p>
+
+  <!-- Botão para submeter o formulário de login -->
+  <button type="submit">Entrar</button>
+</form>
+
+{% endblock %}
+<!--
+  Fim do conteúdo específico da página de login de clientes.
+-->

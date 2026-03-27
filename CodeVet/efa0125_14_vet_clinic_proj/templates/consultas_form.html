@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+<!--
+  Este template herda a estrutura base da aplicação (base.html), reutilizando menu, rodapé e estilos globais.
+-->
+
+{% block content %}
+<!--
+  Início do conteúdo específico do formulário de consultas.
+-->
+
+<h2>{{ titulo }}</h2>
+<!--
+  O título é dinâmico e definido no backend.
+  Pode assumir valores como "Nova consulta" ou "Editar consulta".
+-->
+
+<form method="POST">
+  <!--
+    Formulário enviado via método POST.
+    O mesmo template é reutilizado para criação e edição de consultas.
+  -->
+
+  <p>
+    Animal:<br>
+    <!--
+      Lista suspensa para seleção do animal associado à consulta.
+      Os dados vêm da variável 'animais', enviada pelo backend.
+    -->
+    <select name="animal_id" required>
+      {% for a in animais %}
+      <!--
+        Percorre a lista de animais disponíveis.
+        Em modo edição, o animal correto é automaticamente selecionado.
+      -->
+      <option
+        value="{{ a.id }}"
+        {% if consulta and consulta.animal_id == a.id %}selected{% endif %}
+      >
+        {{ a.id }} - {{ a.nome }}
+      </option>
+      {% endfor %}
+    </select>
+  </p>
+
+  <p>
+    Data/Hora:<br>
+    <!--
+      Campo do tipo datetime-local para registo da data e hora da consulta.
+      Em modo edição, o valor é preenchido automaticamente.
+    -->
+    <input
+      type="datetime-local"
+      name="data_hora"
+      required
+      value="{{ consulta.data_hora if consulta else '' }}"
+    >
+  </p>
+
+  <p>
+    Motivo:<br>
+    <!--
+      Campo para descrever o motivo da consulta.
+    -->
+    <input
+      type="text"
+      name="motivo"
+      required
+      value="{{ consulta.motivo if consulta else '' }}"
+    >
+  </p>
+
+  <p>
+    Notas:<br>
+    <!--
+      Campo para observações adicionais sobre a consulta.
+    -->
+    <input
+      type="text"
+      name="notas"
+      required
+      value="{{ consulta.notas if consulta else '' }}"
+    >
+  </p>
+
+  <!-- Botão para submeter o formulário -->
+  <button type="submit">Guardar</button>
+
+  <!-- Link para retornar à listagem de consultas -->
+  <a href="{{ url_for('consultas_listar') }}">Retornar</a>
+</form>
+
+{% endblock %}
+<!--
+  Fim do conteúdo específico do formulário de consultas.
+-->

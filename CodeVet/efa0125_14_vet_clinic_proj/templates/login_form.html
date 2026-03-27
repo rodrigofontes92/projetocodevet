@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+<!--
+  Este template herda a estrutura base da aplicação (base.html), reutilizando menu, rodapé e estilos globais.
+-->
+
+{% block content %}
+<!--
+  Início do conteúdo específico do formulário de utilizadores (users).
+-->
+
+<h2>{{ titulo }}</h2>
+<!--
+  O título é dinâmico e definido no backend.
+  Pode assumir valores como "Novo user" ou "Editar user".
+-->
+
+<form method="POST">
+  <!--
+    Formulário enviado via método POST.
+    Este template é reutilizado tanto para criação quanto para edição de utilizadores internos.
+  -->
+
+  <p>
+    Username:<br />
+    <!--
+      Campo para o nome de utilizador (username).
+      Em modo edição, o valor é preenchido automaticamente com base nos dados enviados pelo backend.
+    -->
+    <input
+      type="text"
+      name="username"
+      required
+      value="{{ login.username if login else '' }}"
+    />
+  </p>
+
+  <p>
+    Password:<br />
+    <!--
+      Campo para definição ou alteração da password do utilizador.
+      Neste projeto académico, a password é tratada em texto simples por simplicidade didática.
+    -->
+    <input
+      type="text"
+      name="password"
+      required
+      value="{{ login.password if login else '' }}"
+    />
+  </p>
+
+  <p>
+    Tipo (role):<br />
+    <!--
+      Campo de seleção do papel (role) do utilizador.
+      Define as permissões de acesso no sistema.
+    -->
+    <select name="role" required>
+      <!--
+        Opção para administrador.
+        Em modo edição, a opção correspondente é automaticamente selecionada.
+      -->
+      <option value="admin"
+        {% if login and login.role == 'admin' %}selected{% endif %}>admin
+      </option>
+
+      <!--
+        Opção para utilizador do tipo staff.
+      -->
+      <option value="staff"
+        {% if login and login.role == 'staff' %}selected{% endif %}>staff
+      </option>
+    </select>
+  </p>
+
+  <!-- Botão para submeter o formulário -->
+  <button type="submit">Guardar</button>
+
+  <!-- Link para retornar à listagem de utilizadores -->
+  <a href="{{ url_for('users_listar') }}">Retornar</a>
+</form>
+
+{% endblock %}
+<!--
+  Fim do conteúdo específico do formulário de utilizadores.
+-->

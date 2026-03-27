@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+<!--
+  Este template herda a estrutura base do sistema (base.html), reutilizando menu, rodapé e estilos globais.
+-->
+
+{% block title %}Dashboard{% endblock %}
+<!--
+  Define o título específico da página de dashboard.
+-->
+
+{% block content %}
+<!--
+  Início do conteúdo específico do dashboard.
+-->
+
+<h1>📊 Dashboard</h1>
+<!--
+  Título principal da página.
+-->
+
+<p>Bem-vindo, {{ username }}</p>
+<!--
+  Exibe o nome do utilizador autenticado.
+  A variável 'username' é enviada pelo backend no render_template().
+-->
+
+<hr />
+
+<!-- ================= CLIENTE ================= -->
+{% if role == "cliente" %}
+<!--
+  Bloco exibido apenas quando o utilizador autenticado é um cliente.
+-->
+
+<br />
+<h2>Resumo da sua conta</h2>
+
+<p>
+  Total de animais registrados:
+  <strong>{{ dados.total_animais }}</strong>
+</p>
+<!--
+  Exibe o total de animais associados ao cliente.
+  O valor vem do dicionário 'dados' preparado no backend.
+-->
+
+<br />
+<h3>Próximas consultas</h3>
+
+{% if dados.consultas %}
+<!--
+  Verifica se existem consultas futuras para o cliente.
+-->
+<ul>
+  {% for c in dados.consultas %}
+  <!--
+    Percorre a lista de consultas do cliente.
+    Cada item contém data/hora e nome do animal.
+  -->
+  <li>{{ c.data_hora }} — {{ c.animal }}</li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>Não há consultas agendadas.</p>
+{% endif %}
+
+<!-- ================= STAFF ================= -->
+{% elif role == "staff" %}
+<!--
+  Bloco exibido apenas para utilizadores do tipo staff.
+-->
+
+<br />
+<h2>Consultas da semana</h2>
+
+{% if dados.consultas %}
+<!--
+  Verifica se existem consultas agendadas para a semana.
+-->
+<ul>
+  {% for c in dados.consultas %}
+  <!--
+    Exibe as consultas com nome do animal e nome do respetivo cliente.
+  -->
+  <li>{{ c.data_hora }} — {{ c.animal }} ({{ c.cliente }})</li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>Não há consultas agendadas para esta semana.</p>
+{% endif %}
+
+<!-- ================= ADMIN ================= -->
+{% elif role == "admin" %}
+<!--
+  Bloco exibido apenas para administradores.
+  O administrador tem uma visão global do sistema.
+-->
+
+<br />
+<h2>Consultas da semana</h2>
+
+{% if dados.consultas %}
+<ul>
+  {% for c in dados.consultas %}
+  <!--
+    Exibe consultas com informações completas (animal e cliente).
+  -->
+  <li>{{ c.data_hora }} — {{ c.animal }} ({{ c.cliente }})</li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>Não há consultas agendadas.</p>
+{% endif %}
+
+<hr />
+<br />
+
+<h2>Staff registrado</h2>
+<!--
+  Lista de utilizadores com role "staff".
+-->
+<ul>
+  {% for s in dados.staffs %}
+  <li>{{ s.username }}</li>
+  {% endfor %}
+</ul>
+
+<hr />
+<br />
+
+<h2>Totais do sistema</h2>
+<!--
+  Estatísticas globais do sistema, visíveis apenas para o administrador.
+-->
+<ul>
+  <li>Clientes: {{ dados.total_clientes }}</li>
+  <li>Animais: {{ dados.total_animais }}</li>
+  <li>Consultas: {{ dados.total_consultas }}</li>
+</ul>
+
+{% endif %}
+<!--
+  Fim da estrutura condicional baseada no role.
+-->
+
+{% endblock %}
+<!--
+  Fim do bloco de conteúdo do dashboard.
+-->

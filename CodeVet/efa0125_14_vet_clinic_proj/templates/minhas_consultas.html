@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+<!--
+  Este template herda a estrutura base da aplicação (base.html), reutilizando menu, rodapé e estilos globais.
+-->
+
+{% block title %}Minhas Consultas{% endblock %}
+<!--
+  Define o título específico da página de consultas do cliente.
+-->
+
+{% block content %}
+<!--
+  Início do conteúdo específico da área do cliente.
+-->
+
+<h1>📅 Minhas Consultas</h1>
+<!--
+  Título principal da página.
+-->
+
+{% if consultas %}
+<!--
+  Verifica se o cliente possui consultas registadas.
+-->
+<table border="1" cellpadding="6">
+  <tr>
+    <!-- Cabeçalhos da tabela -->
+    <th>Animal</th>
+    <th>Data / Hora</th>
+    <th>Motivo</th>
+    <th>Notas</th>
+  </tr>
+
+  {% for c in consultas %}
+  <!--
+    Percorre a lista de consultas associadas ao cliente.
+    Os dados são enviados pelo backend já filtrados.
+  -->
+  <tr>
+    <td>{{ c.animal_nome }}</td>
+    <td>{{ c.data_hora }}</td>
+    <td>{{ c.motivo }}</td>
+    <td>{{ c.notas }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<!--
+  Mensagem exibida quando o cliente não possui consultas registadas.
+-->
+<p>Não tem consultas registadas.</p>
+{% endif %}
+
+<br>
+
+<!-- Link para retornar ao dashboard do cliente -->
+<a href="{{ url_for('dashboard') }}">Voltar ao Dashboard</a>
+
+{% endblock %}
+<!--
+  Fim do conteúdo específico da página de consultas do cliente.
+-->

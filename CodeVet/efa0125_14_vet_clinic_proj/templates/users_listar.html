@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+<!--
+  Este template herda a estrutura base da aplicação (base.html), reutilizando menu, rodapé e estilos globais.
+-->
+
+{% block title %}Users{% endblock %}
+<!--
+  Define o título específico da página de gestão de utilizadores.
+-->
+
+{% block content %}
+<!--
+  Início do conteúdo específico da página de utilizadores.
+-->
+
+<h1>🛠 Lista de Users</h1>
+<!--
+  Título principal da página.
+  Esta funcionalidade é exclusiva para administradores.
+-->
+
+<p>
+  <!--
+    Link para criação de um novo utilizador interno.
+    A rota é protegida no backend (apenas admin).
+  -->
+  <a href="{{ url_for('users_novo') }}">Novo User</a>
+</p>
+
+<!--
+  Tabela utilizada para apresentar os utilizadores registados.
+  Os dados são recebidos do backend através da variável 'users'.
+-->
+<table border="1" cellpadding="6">
+  <tr>
+    <!-- Cabeçalhos da tabela -->
+    <th>ID</th>
+    <th>Username</th>
+    <th>Role</th>
+    <th>Ações</th>
+  </tr>
+
+  {% for u in users %}
+  <!--
+    Percorre a lista de utilizadores enviada pelo backend.
+    Cada iteração representa um registo da tabela 'users'.
+  -->
+  <tr>
+    <td>{{ u.id }}</td>
+    <td>{{ u.username }}</td>
+    <td>{{ u.role }}</td>
+
+    <td>
+      <!--
+        Link para edição do utilizador.
+        Disponível apenas para administradores.
+      -->
+      <a href="{{ url_for('users_editar', id=u.id) }}">Editar</a>
+
+      <!--
+        Impede que o administrador apague o próprio utilizador.
+        Esta verificação no frontend complementa a validação no backend.
+      -->
+      {% if session.get("user_id") != u.id %}
+      <form
+        method="POST"
+        action="{{ url_for('users_apagar', id=u.id) }}"
+        style="display: inline"
+      >
+        <!--
+          Botão de exclusão com confirmação em JavaScript, evitando eliminações acidentais.
+        -->
+        <button
+          type="submit"
+          onclick="return confirm('Apagar este user?');"
+        >
+          Apagar
+        </button>
+      </form>
+      {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% endblock %}
+<!--
+  Fim do conteúdo específico da página de utilizadores.
+-->

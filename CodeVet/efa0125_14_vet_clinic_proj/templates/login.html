@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+<!--
+  Este template herda a estrutura base da aplicação (base.html), reutilizando menu, rodapé e estilos globais.
+-->
+
+{% block content %}
+<!--
+  Início do conteúdo específico da página de login administrativo.
+-->
+
+<h2>🔐 Login Administrativo</h2>
+<!--
+  Título da página de autenticação de utilizadores internos.
+  Este login é utilizado por administradores e staff.
+-->
+
+<form method="post">
+  <!--
+    Formulário enviado via método POST.
+    Os dados são processados pela rota /login no backend.
+  -->
+
+  <p>
+    Username:<br />
+    <!--
+      Campo para introdução do username do utilizador.
+    -->
+    <input type="text" name="username" required />
+  </p>
+
+  <p>
+    Password:<br />
+    <!--
+      Campo para introdução da password do utilizador.
+      O tipo "password" oculta os caracteres digitados.
+    -->
+    <input type="password" name="password" required />
+  </p>
+
+  <!-- Botão para submeter o formulário de login -->
+  <button type="submit">Entrar</button>
+</form>
+
+{% endblock %}
+<!--
+  Fim do conteúdo específico da página de login administrativo.
+-->

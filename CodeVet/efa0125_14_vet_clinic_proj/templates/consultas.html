@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+<!--
+  Este template herda a estrutura base da aplicação (base.html), reutilizando menu, rodapé e estilos globais.
+-->
+
+{% block title %}Consultas{% endblock %}
+<!--
+  Define o título específico da página de listagem de consultas.
+-->
+
+{% block content %}
+<!--
+  Início do conteúdo específico da página de consultas.
+-->
+
+<h1>📅 Lista de Consultas</h1>
+<!--
+  Título principal da página.
+-->
+
+<p>
+  <!--
+    Link para criação de uma nova consulta.
+    A rota é protegida no backend (admin e staff).
+  -->
+  <a href="{{ url_for('consultas_novo') }}">Nova Consulta</a>
+</p>
+
+<!--
+  Tabela utilizada para apresentar as consultas registadas.
+  Os dados são recebidos do backend através da variável 'consultas'.
+-->
+<table border="1" cellpadding="6">
+  <tr>
+    <!-- Cabeçalhos da tabela -->
+    <th>ID Consulta</th>
+    <th>ID Animal</th>
+    <th>Data/Hora</th>
+    <th>Motivo</th>
+    <th>Notas</th>
+    <th>Ações</th>
+  </tr>
+
+  {% for u in consultas %}
+  <!--
+    Percorre a lista de consultas enviada pelo backend.
+    Cada iteração representa um registo da tabela 'consultas'.
+  -->
+  <tr>
+    <td>{{ u.id }}</td>
+    <td>{{ u.animal_id }}</td>
+    <td>{{ u.data_hora }}</td>
+    <td>{{ u.motivo }}</td>
+    <td>{{ u.notas }}</td>
+
+    <td>
+      <!--
+        Link para edição da consulta.
+        Disponível para admin e staff.
+      -->
+      <a href="{{ url_for('consultas_editar', id=u.id) }}">Editar</a>
+
+      <!--
+        A opção de apagar é exibida apenas para administradores.
+        Esta verificação no frontend complementa a validação no backend.
+      -->
+      {% if session.get("role") == "admin" %}
+      <form
+        method="POST"
+        action="{{ url_for('consultas_apagar', id=u.id) }}"
+        style="display: inline"
+      >
+        <!--
+          Botão de exclusão com confirmação em JavaScript, evitando eliminações acidentais.
+        -->
+        <button
+          type="submit"
+          onclick="return confirm('Apagar esta consulta?');"
+        >
+          Apagar
+        </button>
+      </form>
+      {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% endblock %}
+<!--
+  Fim do conteúdo específico da página de listagem de consultas.
+-->

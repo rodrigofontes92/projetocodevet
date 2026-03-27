@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+<!--
+  Este template herda a estrutura base da aplicação (base.html), reutilizando menu, rodapé e estilos globais.
+-->
+
+{% block content %}
+<!--
+  Início do conteúdo específico do formulário de clientes.
+-->
+
+<h2>{{ titulo }}</h2>
+<!--
+  O título é dinâmico e definido no backend.
+  Pode assumir valores como "Novo cliente" ou "Editar cliente".
+-->
+
+<form method="POST">
+  <!--
+    Formulário enviado via método POST.
+    O mesmo template é reutilizado para criação e edição de clientes.
+  -->
+
+  <p>
+    Nome Cliente:<br>
+    <!--
+      Campo para o nome completo do cliente.
+      Em modo edição, o valor é preenchido automaticamente.
+    -->
+    <input
+      type="text"
+      name="nome"
+      required
+      value="{{ cliente.nome if cliente else '' }}"
+    >
+  </p>
+
+  <p>
+    Telefone:<br>
+    <!--
+      Campo para contacto telefónico do cliente.
+      O tipo "tel" ajuda na validação e usabilidade.
+    -->
+    <input
+      type="tel"
+      name="telefone"
+      required
+      value="{{ cliente.telefone if cliente else '' }}"
+    >
+  </p>
+
+  <p>
+    Email:<br>
+    <!--
+      Campo de email do cliente.
+      Utilizado como identificador único no sistema.
+    -->
+    <input
+      type="email"
+      name="email"
+      required
+      value="{{ cliente.email if cliente else '' }}"
+      placeholder="exemplo@email.com"
+    >
+  </p>
+
+  <p>
+    Morada:<br>
+    <!--
+      Campo para morada do cliente.
+    -->
+    <input
+      type="text"
+      name="morada"
+      required
+      value="{{ cliente.morada if cliente else '' }}"
+    >
+  </p>
+
+  <p>
+    Password:<br>
+    <!--
+      Informação exibida apenas para utilizadores internos.
+      A password inicial do cliente é definida automaticamente no backend como "1234".
+    -->
+    <strong>Nota:</strong>
+    A password inicial do cliente será <strong>1234</strong>.
+  </p>
+
+  <!-- Botão de submissão do formulário -->
+  <button type="submit">Guardar</button>
+
+  <!-- Link para retornar à listagem de clientes -->
+  <a href="{{ url_for('clientes_listar') }}">Retornar</a>
+</form>
+
+{% endblock %}
+<!--
+  Fim do conteúdo específico do formulário de clientes.
+-->

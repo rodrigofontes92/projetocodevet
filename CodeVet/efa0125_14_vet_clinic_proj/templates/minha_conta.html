@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+<!--
+  Este template herda a estrutura base da aplicação (base.html), reutilizando menu, rodapé e estilos globais.
+-->
+
+{% block title %}Minha Conta{% endblock %}
+<!--
+  Define o título específico da página de dados do cliente.
+-->
+
+{% block content %}
+<!--
+  Início do conteúdo específico da área pessoal do cliente.
+-->
+
+<h1>🙍 Minha Conta</h1>
+<!--
+  Título principal da página.
+-->
+
+<!--
+  Tabela utilizada para apresentar os dados pessoais do cliente.
+  As informações são enviadas pelo backend através da variável 'cliente'.
+-->
+<table border="1" cellpadding="6">
+  <tr>
+    <th>Nome</th>
+    <td>{{ cliente.nome }}</td>
+  </tr>
+
+  <tr>
+    <th>Telefone</th>
+    <td>{{ cliente.telefone }}</td>
+  </tr>
+
+  <tr>
+    <th>Email</th>
+    <td>{{ cliente.email }}</td>
+  </tr>
+
+  <tr>
+    <th>Morada</th>
+    <td>{{ cliente.morada }}</td>
+  </tr>
+</table>
+
+<br>
+
+<!--
+  Link para alteração da password do cliente.
+  Redireciona para a rota protegida /mudar_password.
+-->
+<a href="{{ url_for('mudar_password') }}">Mudar Password</a>
+
+<p></p>
+
+<!-- Link para retornar ao dashboard -->
+<a href="{{ url_for('dashboard') }}">Voltar ao Dashboard</a>
+
+{% endblock %}
+<!--
+  Fim do conteúdo específico da página de dados do cliente.
+-->

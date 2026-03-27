@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+<!--
+  Este template herda a estrutura base da aplicação (base.html), reutilizando menu, rodapé e estilos globais.
+-->
+
+{% block title %}Meus Animais{% endblock %}
+<!--
+  Define o título específico da página de animais do cliente.
+-->
+
+{% block content %}
+<!--
+  Início do conteúdo específico da área do cliente.
+-->
+
+<h1>🐾 Meus Animais</h1>
+<!--
+  Título principal da página.
+-->
+
+{% if animais %}
+<!--
+  Verifica se o cliente possui animais registados.
+-->
+<table border="1" cellpadding="6">
+  <tr>
+    <!-- Cabeçalhos da tabela -->
+    <th>Nome</th>
+    <th>Espécie</th>
+    <th>Raça</th>
+    <th>Data de Nascimento</th>
+  </tr>
+
+  {% for a in animais %}
+  <!--
+    Percorre a lista de animais associados ao cliente.
+    Os dados são enviados pelo backend.
+  -->
+  <tr>
+    <td>{{ a.nome }}</td>
+    <td>{{ a.especie }}</td>
+    <td>{{ a.raca }}</td>
+    <td>{{ a.data_nascimento }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<!--
+  Mensagem exibida caso o cliente não possua animais registados.
+-->
+<p>Não tem animais registados.</p>
+{% endif %}
+
+<br>
+
+<!-- Link para retornar ao dashboard do cliente -->
+<a href="{{ url_for('dashboard') }}">Voltar ao Dashboard</a>
+
+{% endblock %}
+<!--
+  Fim do conteúdo específico da página de animais do cliente.
+-->
