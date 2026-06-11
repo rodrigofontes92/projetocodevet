@@ -1,50 +1,28 @@
 # CodeVet
 
-CodeVet é uma aplicação desenvolvida em Python com o objetivo de simular a gestão de uma clínica veterinária, permitindo o controlo de clientes, animais e consultas de forma estruturada.
+A Python-based veterinary clinic management system designed to simulate real-world veterinary practice operations.
 
-O projeto foi criado com foco na aplicação prática de lógica de programação e organização de sistemas reais.
+CodeVet allows users to manage pet owners, animals, appointments, and medical records through a structured command-line interface (CLI), applying object-oriented programming principles and software engineering best practices.
 
----
+## Features
 
-## Objetivo
+* Pet registration and management
+* Client (owner) management
+* Appointment scheduling and tracking
+* Medical history records
+* Data search and reporting
+* Modular and object-oriented architecture
 
-Fornecer um sistema simples e funcional para gerir informações de uma clínica veterinária, incluindo registos de clientes, animais e histórico de consultas.
-
----
-
-## Tecnologias Utilizadas
+## Technologies
 
 * Python
-* Programação Orientada a Objetos (POO)
-* Estruturas de Dados
-* Terminal / CLI (interface em linha de comandos)
+* Object-Oriented Programming (OOP)
+* Command-Line Interface (CLI)
+* Modular Software Design
 
----
+## Project Structure
 
-## Funcionalidades
-
-* Registo de animais
-* Gestão de clientes (donos)
-* Marcação e controlo de consultas
-* Histórico clínico dos animais
-* Consulta de dados registados
-* Organização de dados em memória
-
----
-
-## Arquitetura
-
-O projeto segue princípios de:
-
-* Encapsulamento
-* Separação de responsabilidades
-* Organização por classes e módulos
-
----
-
-## Estrutura do Projeto
-
-```bash
+```text
 src/
 ├── models/
 ├── services/
@@ -52,38 +30,68 @@ src/
 └── main.py
 ```
 
----
+## Architecture
 
-## Como Executar
+The application follows core software engineering principles, including:
 
-1. Certifique-se de que tem o Python instalado
-2. No terminal, navegue até à pasta do projeto
-3. Execute:
+* Encapsulation
+* Separation of Concerns
+* Modular Design
+* Object-Oriented Architecture
+
+## Getting Started
+
+### Prerequisites
+
+* Python 3.x
+
+### Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/rodrigofontes92/projetocodevet.git
+```
+
+Navigate to the project directory:
+
+```bash
+cd projetocodevet
+```
+
+Run the application:
 
 ```bash
 python main.py
 ```
 
----
+## Learning Objectives
 
-## Possíveis Melhorias
+This project was developed to strengthen practical skills in:
 
-* Persistência com base de dados (SQLite ou PostgreSQL)
-* Interface gráfica (Tkinter ou Web com Flask/Django)
-* Sistema simples de autenticação
-* Relatórios de consultas
-* Notificações de agendamento
+* Object-Oriented Programming
+* Business Logic Modeling
+* Software Architecture Fundamentals
+* Data Organization and Management
+* Modular Application Development
 
----
+## Future Improvements
 
-## Autor
+* Database integration (SQLite or PostgreSQL)
+* User authentication and authorization
+* Graphical User Interface (GUI)
+* Web-based version using Flask or Django
+* Appointment notifications and reminders
+* Advanced reporting and analytics
+
+## Author
 
 Rodrigo Fontes
-Desenvolvedor de Software | Especialista em Marketing Digital
 
----
+Software Developer | Digital Marketing Specialist
 
-## Licença
+GitHub: https://github.com/rodrigofontes92
 
-Projeto desenvolvido para fins educacionais.
+## License
 
+This project was developed for educational purposes.
